@@ -1,14 +1,6 @@
 <template>
-  <q-item
-    clickable
-    tag="a"
-    target="_blank"
-    :href="link"
-  >
-    <q-item-section
-      v-if="icon"
-      avatar
-    >
+  <q-item clickable @click="navigate()">
+    <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
 
@@ -23,9 +15,19 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
+
+type Props = {
+  title: string,
+  caption: string;
+  route: string,
+  icon: string;
+};
 
 export default defineComponent({
-  name: 'EssentialLink',
+  name: 'SideMenu',
+  /**
+   */
   props: {
     title: {
       type: String,
@@ -37,7 +39,7 @@ export default defineComponent({
       default: ''
     },
 
-    link: {
+    route: {
       type: String,
       default: '#'
     },
@@ -45,6 +47,19 @@ export default defineComponent({
     icon: {
       type: String,
       default: ''
+    }
+  },
+  /**
+   * @param {Props} props
+   */
+  setup (props: Props) {
+    const $router = useRouter()
+
+    const navigate = () => {
+      void $router.push(props.route)
+    }
+    return {
+      navigate
     }
   }
 })

@@ -12,10 +12,8 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          {{ $t('app.title') }}
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -28,13 +26,13 @@
         <q-item-label
           header
         >
-          Essential Links
+          {{ $t('app.navigationTitle') }}
         </q-item-label>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
+        <SideMenu
+          v-for="item in menuItems"
+          :key="item.title"
+          v-bind="item"
         />
       </q-list>
     </q-drawer>
@@ -46,52 +44,9 @@
 </template>
 
 <script lang="ts">
-import EssentialLink from 'components/EssentialLink.vue'
+import SideMenu from 'components/SideMenu.vue'
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+import { useI18n } from 'vue-i18n'
 
 import { defineComponent, ref } from 'vue'
 
@@ -99,14 +54,32 @@ export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
+    SideMenu
   },
 
   setup () {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const { t: $t } = useI18n()
+
     const leftDrawerOpen = ref(false)
 
+    const menuItems = [
+      {
+        title: $t('app.menu.characters.label'),
+        caption: $t('app.menu.characters.caption'),
+        icon: 'person_pin',
+        route: '/characters'
+      },
+      {
+        title: $t('app.menu.episodes.label'),
+        caption: $t('app.menu.episodes.caption'),
+        icon: 'desktop_windows',
+        route: '/episodes'
+      }
+    ]
+
     return {
-      essentialLinks: linksList,
+      menuItems,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
