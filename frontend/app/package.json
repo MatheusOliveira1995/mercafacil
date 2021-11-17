@@ -10,8 +10,13 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.17",
     "@quasar/extras": "^1.0.0",
+    "@vue/apollo-composable": "^4.0.0-alpha.15",
+    "apollo-client": "^2.6.10",
     "core-js": "^3.6.5",
+    "graphql": "^16.0.1",
+    "graphql-tag": "^2.12.6",
     "quasar": "^2.0.0",
     "vue-i18n": "^9.0.0",
     "vuex": "^4.0.1"

@@ -2,9 +2,14 @@
   <router-view />
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { provide, defineComponent } from 'vue'
+import { DefaultApolloClient } from '@vue/apollo-composable'
+import { apolloClient } from './apolloClient'
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+  setup () {
+    provide(DefaultApolloClient, apolloClient)
+  }
 })
 </script>
