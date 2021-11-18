@@ -1,26 +1,28 @@
 <template>
-  <div>{{ result }}</div>
+  <q-page class="row items-center justify-evenly">
+      <AppList :items="characters"/>
+  </q-page>
+
 </template>
 
 <script>
-import { useQuery } from '@vue/apollo-composable'
-import gql from 'graphql-tag'
+import { getCharacters } from '../service/api/characters'
+import AppList from '../components/shared/AppList.vue'
 export default {
+  /*
+  */
+  name: 'CharactersPage',
+  /**
+   */
+  components: {
+    AppList
+  },
   setup () {
-    const { result } = useQuery(gql`
-      query getCharacters {
-        characters {
-          results {
-            id
-            name
-            status
-            species
-          }
-        }
-      }
-    `)
+    const characters = getCharacters()
+    debugger
+    console.log(characters)
     return {
-      result
+      characters
     }
   }
 }

@@ -25,6 +25,8 @@ type Props = {
 };
 
 export default defineComponent({
+  /**
+   */
   name: 'SideMenu',
   /**
    */

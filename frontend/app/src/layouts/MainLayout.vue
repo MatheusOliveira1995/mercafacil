@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import SideMenu from 'components/SideMenu.vue'
+import SideMenu from 'components/home/SideMenu.vue'
 
 import { useI18n } from 'vue-i18n'
 
