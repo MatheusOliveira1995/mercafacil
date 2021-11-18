@@ -1,18 +1,27 @@
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 
+type Result = {
+  characters: Record<string, unknown>
+}
 export function getCharacters (page = 1) {
-  const teste = useQuery(gql`
+  const { result } = useQuery(gql`
     query getCharacters {
       characters(page:${page}) {
         results {
           id
           name
           status
+          image
           species,
           location{
             name,
             type
+          },
+          origin{
+            name
+            dimension
+            
           },
           episode{
             name
@@ -21,6 +30,8 @@ export function getCharacters (page = 1) {
       }
     }
   `)
-  const characters = useResult(teste.result, null, data => data.characters.results)
+  const characters = useResult(result, null, (data: Result) => {
+    return data.characters.results
+  })
   return characters
 }
