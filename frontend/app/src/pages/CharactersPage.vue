@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <AppList v-show="!loading" title="Lista de personagens" :items="characters">
+    <AppList v-show="!loading" :title="$t('app.characterList')" :items="characters">
       <template #itemsSlot="{ item }">
         <CharacterDetail :character="item" />
       </template>
@@ -32,6 +32,8 @@ export default {
       loading
     }
   }
+  /**
+   */
 }
 </script>
 

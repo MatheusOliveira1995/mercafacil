@@ -27,7 +27,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          {{ character.episode.map((item) => item.name).join(", ") }}
+          {{ character.episodes.map((item) => item.name).join(", ") }}
         </q-card-section>
 
         <q-card-actions align="right">
@@ -55,7 +55,6 @@ export default {
    */
   setup () {
     const alert = ref(false)
-
     return {
       alert
     }
