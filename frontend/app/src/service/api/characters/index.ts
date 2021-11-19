@@ -5,7 +5,7 @@ type Result = {
   characters: Record<string, unknown>
 }
 export function getCharacters (page = 1) {
-  const { result } = useQuery(gql`
+  const { result, loading } = useQuery(gql`
     query getCharacters {
       characters(page:${page}) {
         results {
@@ -33,5 +33,8 @@ export function getCharacters (page = 1) {
   const characters = useResult(result, null, (data: Result) => {
     return data.characters.results
   })
-  return characters
+  return {
+    characters,
+    loading
+  }
 }

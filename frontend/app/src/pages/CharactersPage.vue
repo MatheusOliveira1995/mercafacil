@@ -1,10 +1,13 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <AppList title="Lista de personagens" :items="characters">
+    <AppList v-show="!loading" title="Lista de personagens" :items="characters">
       <template #itemsSlot="{ item }">
         <CharacterDetail :character="item" />
       </template>
     </AppList>
+    <q-inner-loading :showing="loading">
+        <q-spinner-gears size="50px" color="primary" />
+      </q-inner-loading>
   </q-page>
 </template>
 
@@ -23,9 +26,10 @@ export default {
     CharacterDetail
   },
   setup () {
-    const characters = getCharacters()
+    const { loading, characters } = getCharacters()
     return {
-      characters
+      characters,
+      loading
     }
   }
 }

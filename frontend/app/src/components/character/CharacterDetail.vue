@@ -4,19 +4,19 @@
     <q-separator />
     <div q-pa-sm>
       <p class="text-body1">{{ character.name }}</p>
-      <span style="display: flex">
+      <span>
         <p class="text-subtitle2">{{ $t('character.origin') + ': ' }}</p>
         <p>{{ character.origin.name }}</p>
       </span>
-      <span style="display: flex">
-        <p class="text-subtitle2">{{ $t('character.dimension') + ': ' }}:</p>
+      <span>
+        <p class="text-subtitle2">{{ $t('character.dimension') }}:</p>
         <p>{{ character.origin.dimension }}</p>
       </span>
-      <span style="display: flex">
-        <p class="text-subtitle2">{{ $t('character.localization') + ': ' }}:</p>
+      <span>
+        <p class="text-subtitle2">{{ $t('character.localization') }}:</p>
         <p>{{ character.location.name }}</p>
       </span>
-      <span style="display: flex" class="q-pt-md">
+      <span class="q-pt-md">
         <q-btn @click="alert = true" color="primary">{{ $t('character.actions.episodes') }}</q-btn>
       </span>
     </div>
@@ -71,5 +71,8 @@ export default {
 }
 p {
   margin: 0 2px;
+}
+span {
+    display: flex;
 }
 </style>
