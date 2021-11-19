@@ -1,25 +1,29 @@
 <template>
   <div>
-    <div class="text-h5">Personagem</div>
+    <div class="text-h5">{{ $t('character.title') }}</div>
     <q-separator />
     <div q-pa-sm>
       <p class="text-body1">{{ character.name }}</p>
       <span style="display: flex">
-        <p class="text-subtitle2">Origem:</p>
+        <p class="text-subtitle2">{{ $t('character.origin') + ': ' }}</p>
         <p>{{ character.origin.name }}</p>
       </span>
       <span style="display: flex">
-        <p class="text-subtitle2">Dimensão:</p>
+        <p class="text-subtitle2">{{ $t('character.dimension') + ': ' }}:</p>
         <p>{{ character.origin.dimension }}</p>
       </span>
+      <span style="display: flex">
+        <p class="text-subtitle2">{{ $t('character.localization') + ': ' }}:</p>
+        <p>{{ character.location.name }}</p>
+      </span>
       <span style="display: flex" class="q-pt-md">
-        <q-btn @click="alert = true" color="primary">Ver Episódios</q-btn>
+        <q-btn @click="alert = true" color="primary">{{ $t('character.actions.episodes') }}</q-btn>
       </span>
     </div>
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Episódios</div>
+          <div class="text-h6">{{ $t('character.episodes') }}</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
@@ -36,7 +40,6 @@
 
 <script>
 import { ref } from 'vue'
-
 export default {
   /**
    */
@@ -67,6 +70,6 @@ export default {
   justify-content: center;
 }
 p {
-  margin: 0;
+  margin: 0 2px;
 }
 </style>

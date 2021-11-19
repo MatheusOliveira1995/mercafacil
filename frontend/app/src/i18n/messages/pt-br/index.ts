@@ -1,3 +1,4 @@
 import app from './app'
+import character from './character'
 
-export default { app }
+export default { app, character }

@@ -1,16 +1,17 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <q-toolbar class="q-pa-lg">
-      <q-toolbar-title class="text-h6 text-justify"> Personagens do desenho </q-toolbar-title>
-      <q-btn flat round dense icon="whatshot" />
-    </q-toolbar>
-    <AppList :items="characters" />
+    <AppList title="Lista de personagens" :items="characters">
+      <template #itemsSlot="{ item }">
+        <CharacterDetail :character="item" />
+      </template>
+    </AppList>
   </q-page>
 </template>
 
 <script>
 import { getCharacters } from '../service/api/characters'
 import AppList from '../components/shared/AppList.vue'
+import CharacterDetail from '../components/character/CharacterDetail.vue'
 export default {
   /*
    */
@@ -18,7 +19,8 @@ export default {
   /**
    */
   components: {
-    AppList
+    AppList,
+    CharacterDetail
   },
   setup () {
     const characters = getCharacters()
