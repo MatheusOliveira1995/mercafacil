@@ -32,18 +32,16 @@ export default {
     CharacterDetail
   },
   setup () {
-    const params = ref({
-      page: 1,
-      name: ''
-    })
-    const { loading, response } = getCharacters(params)
-    /* const setPage = (nextPage: number) => {
-      params.page.value = nextPage
-    } */
+    const page = ref(1)
+    const filterName = ref('')
+    const { loading, response } = getCharacters({ page, filterName })
+    const setPage = (nextPage: number) => {
+      page.value = nextPage
+    }
     return {
       loading,
-      response
-      // setPage
+      response,
+      setPage
     }
   }
   /**
