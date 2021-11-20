@@ -12,6 +12,7 @@ export type Episode = {
 }
 export type Character = {
     id: number | string,
+    pages?: number,
     name: string,
     status: string,
     image: string,

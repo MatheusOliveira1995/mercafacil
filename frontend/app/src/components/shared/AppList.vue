@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 <template>
   <q-list class="container q-pa-sm">
     <q-toolbar class="q-pa-lg">
       <q-toolbar-title class="text-h5 text-justify"> {{title}} </q-toolbar-title>
-      <q-btn flat round dense icon="whatshot" />
+      <q-btn @click="sortList()" flat round dense icon="sort_by_alpha" />
     </q-toolbar>
-    <q-item v-for="item in items" :key="item.id">
+    <q-item v-for="item in showing" :key="item.id">
       <q-item-section>
         <q-card class="row">
           <div v-show="item.image" class="col-xs-12 col-sm-12 col-md-4 image__container">
@@ -16,10 +17,28 @@
         </q-card>
       </q-item-section>
     </q-item>
+    <div class="q-pa-lg flex flex-center">
+      <q-pagination
+        v-model="currentPage"
+        :max="pages"
+          input
+      />
+    </div>
+
   </q-list>
 </template>
 
 <script lang="ts">
+import { ref } from 'vue'
+/**
+ */
+type Props = {
+  items: Array<unknown>;
+  title: string;
+};
+type SortItem = {
+  name: string
+};
 export default {
   /**
    */
@@ -33,10 +52,37 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    pages: {
+      type: Number
+    }
+  },
+  /**
+   * @param {Props} props
+   */
+  setup (props:Props) {
+    const showing = ref(props.items)
+    const currentPage = ref(1)
+    let ascending = true
+    const sorter = (a:unknown, b:unknown) => {
+      const item1 = a as SortItem
+      const item2 = b as SortItem
+      if (item1.name > item2.name) { return ascending ? 1 : -1 }
+
+      if (item1.name < item2.name) { return ascending ? -1 : 1 }
+
+      return 0
+    }
+    const sortList = () => {
+      ascending = !ascending
+      showing.value = showing.value.sort(sorter)
+    }
+    return {
+      currentPage,
+      showing,
+      sortList
     }
   }
-  /**
-   */
 }
 </script>
 

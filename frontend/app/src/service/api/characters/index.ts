@@ -3,17 +3,27 @@ import gql from 'graphql-tag'
 import { Character, Episode, Location, Origin } from '../../../definitions'
 import { Ref } from 'vue'
 
+type ReponseData = {
+  characters:{
+    results: Record<string, unknown>[],
+    info: Record <string, unknown>
+  },
+}
 type Result = {
-  characters: Record<string, unknown>
+  characters: Character[]
+  pages: number
 }
 type Response = {
   loading: Ref<boolean>,
-  characters: Readonly<Ref<Readonly<Character[] | null>>>
+  response: Readonly<Ref<Readonly<Result | null>>>
 }
 export function getCharacters (page = 1):Response {
   const { result, loading } = useQuery(gql`
     query getCharacters {
       characters(page:${page}) {
+        info{
+          pages
+        }
         results {
           id
           name
@@ -36,8 +46,10 @@ export function getCharacters (page = 1):Response {
       }
     }
   `)
-  const characters = useResult(result, null, (data: Result) => {
-    const response = data.characters.results as Record<string, unknown>[]
+  const response = useResult(result, null, (data: ReponseData): Result => {
+    const response = data.characters.results
+    const info = data.characters.info
+
     const characters = response.map((character):Character => {
       const episodesResponse = character.episode as Record<string, unknown>[]
       const episodes = episodesResponse.map((episode):Episode => {
@@ -67,10 +79,14 @@ export function getCharacters (page = 1):Response {
         origin
       }
     })
-    return characters
+
+    return {
+      characters: characters,
+      pages: info.pages as number
+    }
   })
   return {
-    loading: loading,
-    characters: characters
+    loading,
+    response
   }
 }
