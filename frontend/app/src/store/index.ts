@@ -1,4 +1,5 @@
 import { store } from 'quasar/wrappers'
+import { Character, Episode } from 'src/definitions'
 import { InjectionKey } from 'vue'
 import {
   createStore,
@@ -6,8 +7,7 @@ import {
   useStore as vuexUseStore
 } from 'vuex'
 
-// import example from './module-example'
-// import { ExampleStateInterface } from './module-example/state';
+import character from './character'
 
 /*
  * If not building with SSR mode, you can
@@ -19,10 +19,10 @@ import {
  */
 
 export interface StateInterface {
-  // Define your own store structure, using submodules if needed
-  // example: ExampleStateInterface;
-  // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
-  example: unknown
+  character: {
+    characters: Character[]
+  }
+  episodes: Episode[]
 }
 
 // provide typings for `this.$store`
@@ -38,7 +38,7 @@ export const storeKey: InjectionKey<VuexStore<StateInterface>> = Symbol('vuex-ke
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({
     modules: {
-      // example
+      character
     },
 
     // enable strict mode (adds overhead!)
