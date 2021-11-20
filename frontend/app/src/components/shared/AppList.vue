@@ -21,7 +21,7 @@
       <q-pagination
         v-model="currentPage"
         :max="pages"
-          input
+        input
       />
     </div>
 
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
+import { ref, SetupContext, watch } from 'vue'
 /**
  */
 type Props = {
@@ -58,9 +58,13 @@ export default {
     }
   },
   /**
+   */
+  emits: ['app-list:pageChange'],
+  /**
    * @param {Props} props
    */
-  setup (props:Props) {
+  setup (props:Props, context: SetupContext) {
+    const { emit } = context
     const showing = ref(props.items)
     const currentPage = ref(1)
     let ascending = true
@@ -77,6 +81,9 @@ export default {
       ascending = !ascending
       showing.value = showing.value.sort(sorter)
     }
+    watch(currentPage, () => {
+      emit('app-list:pageChange', currentPage.value)
+    })
     return {
       currentPage,
       showing,

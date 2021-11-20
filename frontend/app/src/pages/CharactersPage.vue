@@ -4,6 +4,7 @@
       :title="$t('app.characterList')"
       :items="response.characters"
       :pages="response.pages"
+      @app-list:pageChange="setPage($event)"
     >
       <template #itemsSlot="{ item }">
         <CharacterDetail :character="item" />
@@ -15,10 +16,11 @@
   </q-page>
 </template>
 
-<script>
+<script lang="ts">
 import { getCharacters } from '../service/api/characters'
 import AppList from '../components/shared/AppList.vue'
 import CharacterDetail from '../components/character/CharacterDetail.vue'
+import { ref } from 'vue'
 export default {
   /*
    */
@@ -30,10 +32,18 @@ export default {
     CharacterDetail
   },
   setup () {
-    const { loading, response } = getCharacters()
+    const params = ref({
+      page: 1,
+      name: ''
+    })
+    const { loading, response } = getCharacters(params)
+    /* const setPage = (nextPage: number) => {
+      params.page.value = nextPage
+    } */
     return {
-      response,
-      loading
+      loading,
+      response
+      // setPage
     }
   }
   /**

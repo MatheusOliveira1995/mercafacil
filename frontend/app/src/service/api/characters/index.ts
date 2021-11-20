@@ -2,6 +2,8 @@ import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
 import { Character, Episode, Location, Origin } from '../../../definitions'
 import { Ref } from 'vue'
+import { VariablesParameter } from '@vue/apollo-composable/dist/useQuery'
+import { OperationVariables } from 'apollo-client'
 
 type ReponseData = {
   characters:{
@@ -17,10 +19,10 @@ type Response = {
   loading: Ref<boolean>,
   response: Readonly<Ref<Readonly<Result | null>>>
 }
-export function getCharacters (page = 1):Response {
+export function getCharacters (variables: VariablesParameter<OperationVariables>):Response {
   const { result, loading } = useQuery(gql`
-    query getCharacters {
-      characters(page:${page}) {
+    query getCharacters($page: Int!, $name: String) {
+      characters(page:$page, filter:{name:$name}) {
         info{
           pages
         }
@@ -45,7 +47,7 @@ export function getCharacters (page = 1):Response {
         }
       }
     }
-  `)
+  `, variables)
   const response = useResult(result, null, (data: ReponseData): Result => {
     const response = data.characters.results
     const info = data.characters.info
