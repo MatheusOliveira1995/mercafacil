@@ -5,7 +5,7 @@ export type Location = {
 }
 export type Origin = {
     name: string,
-    type: string
+    dimension: string
 }
 export type Episode = {
     name:string

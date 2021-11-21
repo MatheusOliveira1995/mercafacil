@@ -39,7 +39,6 @@ export function getCharacters (variables: VariablesParameter<OperationVariables>
           origin{
             name
             dimension
-            
           },
           episode{
             name
@@ -65,12 +64,12 @@ export function getCharacters (variables: VariablesParameter<OperationVariables>
 
       const location: Location = {
         name: locationReturned.name as string,
-        type: locationReturned.name as string
+        type: locationReturned.type as string
       }
       const originReturned = character.origin as Record<string, unknown>
       const origin: Origin = {
         name: originReturned.name as string,
-        type: originReturned.name as string
+        dimension: originReturned.dimension as string
       }
       return {
         id: character.id as string,
