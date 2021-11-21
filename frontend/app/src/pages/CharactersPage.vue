@@ -1,10 +1,10 @@
 <template>
   <q-page class="row items-center justify-evenly">
     <AppList v-if="!loading"
-      :title="$t('app.characterList')"
       :items="response.characters"
       :pages="response.pages"
       @app-list:pageChange="setPage($event)"
+      @app-list:filter="filter($event)"
     >
       <template #itemsSlot="{ item }">
         <CharacterDetail :character="item" />
@@ -38,7 +38,11 @@ export default {
     const setPage = (nextPage: number) => {
       page.value = nextPage
     }
+    const filter = (name: '') => {
+      filterName.value = name
+    }
     return {
+      filter,
       loading,
       response,
       setPage

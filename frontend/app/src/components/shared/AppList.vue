@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 <template>
   <q-list class="container q-pa-sm">
-    <q-toolbar class="q-pa-lg">
+    <q-toolbar class="q-pa-md">
       <q-toolbar-title class="text-h5 text-justify"> {{title}} </q-toolbar-title>
+      <SearchBar @search-bar:search="performFilter($event)"/>
       <q-btn @click="sortList()" flat round dense icon="sort_by_alpha" />
     </q-toolbar>
     <q-item v-for="item in showing" :key="item.id">
@@ -30,6 +31,7 @@
 
 <script lang="ts">
 import { ref, SetupContext, watch } from 'vue'
+import SearchBar from './SearchBar.vue'
 /**
  */
 type Props = {
@@ -45,6 +47,9 @@ export default {
   name: 'AppList',
   /**
    */
+  components: {
+    SearchBar
+  },
   props: {
     title: {
       type: String
@@ -59,14 +64,17 @@ export default {
   },
   /**
    */
-  emits: ['app-list:pageChange'],
+  emits: ['app-list:pageChange', 'app-list:filter'],
   /**
    * @param {Props} props
+   * @param {SetupContext} SetupContext
    */
   setup (props:Props, context: SetupContext) {
     const { emit } = context
     const showing = ref(props.items)
-    const currentPage = ref(1)
+    const storedPage = parseInt(localStorage.getItem('currentPage') || '1')
+    localStorage.clear()
+    const currentPage = ref(storedPage || 1)
     let ascending = true
     const sorter = (a:unknown, b:unknown) => {
       const item1 = a as SortItem
@@ -77,15 +85,20 @@ export default {
 
       return 0
     }
+    const performFilter = (filter: string) => {
+      emit('app-list:filter', filter)
+    }
     const sortList = () => {
       ascending = !ascending
       showing.value = showing.value.sort(sorter)
     }
     watch(currentPage, () => {
+      localStorage.setItem('currentPage', (currentPage.value ? currentPage.value.toString() : '1'))
       emit('app-list:pageChange', currentPage.value)
     })
     return {
       currentPage,
+      performFilter,
       showing,
       sortList
     }

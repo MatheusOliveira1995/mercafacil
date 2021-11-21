@@ -143,8 +143,8 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: 'rick-morty-app',
-        short_name: 'rick-morty-app',
+        name: 'Rick & Morty',
+        short_name: 'Rick & Morty',
         description: 'A Quasar Framework app',
         display: 'standalone',
         orientation: 'portrait',

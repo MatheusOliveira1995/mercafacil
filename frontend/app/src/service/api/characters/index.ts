@@ -1,6 +1,6 @@
 import { useQuery, useResult } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import { Character, Episode, Location, Origin } from '../../../definitions'
+import { Character, Episode, Location, Origin } from 'src/definitions'
 import { Ref } from 'vue'
 import { VariablesParameter } from '@vue/apollo-composable/dist/useQuery'
 import { OperationVariables } from 'apollo-client'
@@ -21,8 +21,8 @@ type Response = {
 }
 export function getCharacters (variables: VariablesParameter<OperationVariables>):Response {
   const { result, loading } = useQuery(gql`
-    query getCharacters($page: Int!, $name: String) {
-      characters(page:$page, filter:{name:$name}) {
+    query getCharacters($page: Int!, $filterName: String) {
+      characters(page:$page, filter:{name:$filterName}) {
         info{
           pages
         }
@@ -47,7 +47,9 @@ export function getCharacters (variables: VariablesParameter<OperationVariables>
         }
       }
     }
-  `, variables)
+  `, variables, {
+    fetchPolicy: 'cache-and-network'
+  })
   const response = useResult(result, null, (data: ReponseData): Result => {
     const response = data.characters.results
     const info = data.characters.info
