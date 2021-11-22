@@ -10,15 +10,14 @@
         <CharacterDetail :character="item" />
       </template>
     </AppList>
-    <q-inner-loading :showing="loading">
-      <q-spinner-gears size="50px" color="primary" />
-    </q-inner-loading>
+    <LoadingState :loading="loading"/>
   </q-page>
 </template>
 
 <script lang="ts">
 import { getCharacters } from '../service/api/characters'
 import AppList from '../components/shared/AppList.vue'
+import LoadingState from '../components/shared/LoadingState.vue'
 import CharacterDetail from '../components/character/CharacterDetail.vue'
 import { ref } from 'vue'
 export default {
@@ -29,7 +28,8 @@ export default {
    */
   components: {
     AppList,
-    CharacterDetail
+    CharacterDetail,
+    LoadingState
   },
   setup () {
     const page = ref(1)

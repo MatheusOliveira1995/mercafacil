@@ -55,15 +55,15 @@ export function getEpisodes (variables: VariablesParameter<OperationVariables>):
       })
       return {
         name: episode.name as string,
-        characters
+        characters,
+        airdate: episode.air_date as string
       }
     })
     return {
-      episodes,
+      episodes: episodes,
       pages: info.pages as number
     }
   })
-
   return {
     loading,
     response

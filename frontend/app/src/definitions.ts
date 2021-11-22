@@ -10,6 +10,7 @@ export type Origin = {
 }
 export type Episode = {
     name:string,
+    airdate?: string,
     characters?: Character[]
 }
 export type Character = {
