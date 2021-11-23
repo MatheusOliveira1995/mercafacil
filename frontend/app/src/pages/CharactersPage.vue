@@ -2,7 +2,7 @@
   <q-page class="row items-center justify-evenly">
     <AppList v-if="!loading"
       :items="response.characters"
-      :pages="response.pages"
+      :info="response.info"
       @app-list:pageChange="setPage($event)"
       @app-list:filter="filter($event)"
     >

@@ -16,7 +16,7 @@
       </q-item-section>
     </q-item>
     <div class="q-pa-lg flex flex-center">
-      <q-pagination v-model="currentPage" :max="pages" input />
+      <q-pagination v-model="currentPage" :max="info.pages ?? 1" input />
     </div>
   </q-list>
 </template>
@@ -29,6 +29,7 @@ import SearchBar from './SearchBar.vue'
 type Props = {
   items: Array<unknown>;
   title: string;
+  info: Record<string, unknown>
 };
 type SortItem = {
   name: string;
@@ -50,8 +51,9 @@ export default {
       type: Array,
       required: true
     },
-    pages: {
-      type: Number
+    info: {
+      type: Object,
+      default: () => ({})
     }
   },
   /**
@@ -64,9 +66,7 @@ export default {
   setup (props: Props, context: SetupContext) {
     const { emit } = context
     const showing = ref(props.items)
-    const storedPage = parseInt(localStorage.getItem('currentPage') ?? '1')
-    localStorage.removeItem('currentPage')
-    const currentPage = ref(storedPage)
+    const currentPage = ref(props.info.currentPage ?? 1)
     const ascending = ref(localStorage.getItem('ordering') === 'asc')
     const sorter = (a: unknown, b: unknown) => {
       const item1 = a as SortItem
@@ -89,10 +89,11 @@ export default {
       sortList()
     }
     const sortList = () => {
+      if (!showing.value) return
+
       showing.value = showing.value.sort(sorter)
     }
     watch(currentPage, () => {
-      localStorage.setItem('currentPage', currentPage.value ? currentPage.value.toString() : '1')
       emit('app-list:pageChange', currentPage.value)
     })
     watch(ascending, () => {

@@ -13,17 +13,21 @@ type ReponseData = {
 }
 type Result = {
   characters: Character[]
-  pages: number
+  info: {
+    pages: number,
+    currentPage: number
+  }
 }
 type Response = {
   loading: Ref<boolean>,
-  response: Readonly<Ref<Readonly<Result | null>>>
+  response: Readonly<Ref<Readonly<Result | Record<string, unknown>>>>
 }
 export function getCharacters (variables: VariablesParameter<OperationVariables>):Response {
   const { result, loading } = useQuery(gql`
     query getCharacters($page: Int!, $filterName: String) {
       characters(page:$page, filter:{name:$filterName}) {
         info{
+          next
           pages
         }
         results {
@@ -49,7 +53,7 @@ export function getCharacters (variables: VariablesParameter<OperationVariables>
   `, variables, {
     fetchPolicy: 'cache-and-network'
   })
-  const response = useResult(result, null, (data: ReponseData): Result => {
+  const response = useResult(result, {}, (data: ReponseData): Result => {
     const response = data.characters.results
     const info = data.characters.info
 
@@ -82,10 +86,13 @@ export function getCharacters (variables: VariablesParameter<OperationVariables>
         origin
       }
     })
-
+    const nextPage = info.next as number ?? info.pages as number + 1
     return {
       characters: characters,
-      pages: info.pages as number
+      info: {
+        currentPage: nextPage - 1,
+        pages: info.pages as number
+      }
     }
   })
   return {

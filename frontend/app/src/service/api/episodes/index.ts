@@ -13,18 +13,22 @@ type ReponseData = {
 }
 type Result = {
     episodes: Episode[]
-    pages: number
+    info: {
+      pages: number,
+      currentPage: number
+    }
 }
 type Response = {
     loading: Ref<boolean>,
-    response: Readonly<Ref<Readonly<Result | null>>>
+    response: Readonly<Ref<Readonly<Result | Record<string, unknown>>>>
   }
 export function getEpisodes (variables: VariablesParameter<OperationVariables>): Response {
   const { result, loading } = useQuery(gql`
     query getEpisodes($page: Int!, $filterName: String) {
         episodes(page:$page, filter:{name:$filterName}) {
           info{
-            pages
+            pages,
+            next
           }
           results {
             id
@@ -41,7 +45,7 @@ export function getEpisodes (variables: VariablesParameter<OperationVariables>):
     `, variables, {
     fetchPolicy: 'cache-and-network'
   })
-  const response = useResult(result, null, (data: ReponseData): Result => {
+  const response = useResult(result, {}, (data: ReponseData): Result => {
     const response = data.episodes.results
     const info = data.episodes.info
 
@@ -59,9 +63,13 @@ export function getEpisodes (variables: VariablesParameter<OperationVariables>):
         airdate: episode.air_date as string
       }
     })
+    const nextPage = info.next as number ?? info.pages as number + 1
     return {
       episodes: episodes,
-      pages: info.pages as number
+      info: {
+        currentPage: nextPage - 1,
+        pages: info.pages as number
+      }
     }
   })
   return {
