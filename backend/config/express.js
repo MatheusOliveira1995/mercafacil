@@ -1,6 +1,9 @@
-import express from "express";
-require('dotenv').config()
+import express from 'express'
+import dotenv from 'dotenv'
 import cors from 'cors' 
+import consign from 'consign'
+
+dotenv.config()
 
 export default () => {
     const app = express()
@@ -11,6 +14,10 @@ export default () => {
     app.use(express.urlencoded({ extended: false }))
 
     app.use(cors())
+
+    consign({ cwd: 'api'})
+        .include('/routes')
+        .into(app)
 
     return app
 }

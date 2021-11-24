@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize'
-import { mysql} from '../database/database'
+import { mysql } from '../database/database'
 
 const contactsMacapa = mysql.define('contacts', {
     nome: {
