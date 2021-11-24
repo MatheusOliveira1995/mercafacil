@@ -17,10 +17,9 @@ function createContacts(model, payload, callback){
 function saveContactsMacapa(req, res) {
     const data = req.body.contacts
     const payload = data.map((contact) => {
-        const phone = contact.cellphone.replace(/\D/g, "")
         return{
             nome: contact.name.toUpperCase(),
-            celular: formatCellphone(phone)
+            celular: formatCellphone(contact.cellphone)
         }
     })
     createContacts(contactsMacapa, payload, (result) => {
