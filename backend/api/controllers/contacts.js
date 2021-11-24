@@ -24,7 +24,7 @@ function saveContactsMacapa(req, res) {
     })
     createContacts(contactsMacapa, payload, (result) => {
         if(result.status === 'success')
-            return res.status(201)
+            return res.status(201).send()
             
         return res.status(500).send({ message: result.error })    
     })
@@ -40,7 +40,7 @@ function saveContactsVarejao (req, res) {
     })
     createContacts(contactsVarejao, payload, (result) => {
         if(result.status === 'success')
-            return res.status(201)
+            return res.status(201).send()
             
         return res.status(500).send({ message: result.error })    
     })
@@ -51,9 +51,11 @@ export default () => {
     controller.saveContacts = (req, res) => {
         const caller = res.locals.user
         if(caller === 'macapa')
-            saveContactsMacapa(req, res)
-
-        saveContactsVarejao(req, res)    
+            return saveContactsMacapa(req, res)
+        if(caller === 'varejao')
+            return saveContactsVarejao(req, res)  
+        
+        return res.status(404).send({ message: 'Usuario inválido' })
     }
 
     return controller
