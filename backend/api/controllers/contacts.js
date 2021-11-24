@@ -55,7 +55,7 @@ export default () => {
         if(caller === 'varejao')
             return saveContactsVarejao(req, res)  
         
-        return res.status(404).send({ message: 'Usuario inválido' })
+        return res.status(501).send({ message: 'Usuario inválido' })
     }
 
     return controller
