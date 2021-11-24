@@ -1,4 +1,4 @@
-# Processo seletivo para vaga de desenvolvedor fullstack realizado para a empresa Mercafácil ;)
+# Processo seletivo para vaga de desenvolvedor fullstack realizado para a empresa Mercafacil ;)
 
 
 #Requisitos da aplicação frontend:
