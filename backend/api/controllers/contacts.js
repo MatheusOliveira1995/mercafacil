@@ -2,15 +2,15 @@ import contactsMacapa from "../models/contacts-macapa";
 import contactsVarejao from "../models/contacts-varejao";
 import { formatCellphone } from '../util/format'
 
-function createContacts(model, payload, callback){
+function createContacts(model, payload, res){
     try {
         model.bulkCreate(payload, {
             returning: false
         }).then(() => {
-            callback({ status: 'success' })
+            return res.status(201).send()
         })
     } catch (error) {
-        callback({ status: 'error', error: error })
+        return res.status(500).send({ message: error }) 
     }
 }
 
@@ -22,12 +22,7 @@ function saveContactsMacapa(req, res) {
             celular: formatCellphone(contact.cellphone)
         }
     })
-    createContacts(contactsMacapa, payload, (result) => {
-        if(result.status === 'success')
-            return res.status(201).send()
-            
-        return res.status(500).send({ message: result.error })    
-    })
+    createContacts(contactsMacapa, payload, res)
 }
 function saveContactsVarejao (req, res) {
     const data = req.body.contacts
@@ -38,12 +33,7 @@ function saveContactsVarejao (req, res) {
             celular: phone.substr(0,4).concat(phone.substr(5, phone.length)) 
         }
     })
-    createContacts(contactsVarejao, payload, (result) => {
-        if(result.status === 'success')
-            return res.status(201).send()
-            
-        return res.status(500).send({ message: result.error })    
-    })
+    createContacts(contactsVarejao, payload, res)
 }
 
 export default () => {
@@ -55,7 +45,7 @@ export default () => {
         if(caller === 'varejao')
             return saveContactsVarejao(req, res)  
         
-        return res.status(501).send({ message: 'Usuario inválido' })
+        return res.status(501).send({ message: 'Cliente inválido' })
     }
 
     return controller
