@@ -55,7 +55,3 @@ Especificações do Cliente VareJão:
 - Em anexo está o sql de criação da tabela
 
 A criação de um ambiente de testes usando Docker para simular o banco de dados do cliente é altamente recomendada. A solução poderá ser desenvolvida em Golang ou Node.js. Fique livre para desenhar a solução da maneira que achar mais conveniente e supor qualquer cenário que não foi abordado nas especificações acima. Se, por qualquer motivo, você não consiga completar este teste, recomendamos que nos encaminhe o que foi desenvolvido de qualquer maneira. A falta de cumprimento de alguns dos requisitos aqui descritos não implica necessariamente na desconsideração do candidato.
-
-# Tokens de autenticação usados para testar a api:
- - Cliente Macapá: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoibWFjYXBhIn0.1SeHjWDmNqF7qPVWBvqDCRjURNPtknJtuz9hhHM-Ex8
- - Cliente Varejão: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidmFyZWphbyJ9.nyB5y1wg-SWnp0OF9Q6iPaqt1sRvUE-yACF7YPz747k
